@@ -1,25 +1,49 @@
 #!/bin/bash
-
 export USER=nobody
+export LANG=en_US.UTF-8
 
-# 设置默认屏幕尺寸
-SCREEN_SIZE=${SCREEN_SIZE:-1024x768x24}
+WINDOW_SIZE=${WINDOW_SIZE:-1600x900}
+BROWSER_SIZE=$(echo "$WINDOW_SIZE" | sed 's/x/,/')
 
-# 检查是否传入 VNC 密码
-if [ -n "$VNCPASS" ]; then
+if [ -n "$VNC_PASS" ]; then
     # 设置 VNC 密码
-    x11vnc -storepasswd "$VNCPASS" /root/.vnc/passwd
-    VNC_PASSWORD_PARAM="-usepw"
+    x11vnc -storepasswd "$VNC_PASS" /root/.vnc/passwd
+    VNC_PASSWORD_PARAM="-rfbauth /root/.vnc/passwd"
 else
     VNC_PASSWORD_PARAM=""
 fi
 
+CONFIG_FILE_CONTENT="[supervisord]
+nodaemon=true
+
+[program:xvfb]
+command=Xvfb :0 -screen 0 ${WINDOW_SIZE}x24 -listen tcp -ac
+autorestart=true
+
+[program:websockify]
+command=websockify --web /usr/share/novnc 6080 localhost:5900
+autorestart=true
+
+[program:x11vnc]
+command=x11vnc -forever -shared ${VNC_PASSWORD_PARAM}
+autorestart=true
+
+[program:chromium]
+command=chromium --no-sandbox --remote-debugging-port=9222 --user-data-dir=/data --window-size=${BROWSER_SIZE}
+autorestart=true"
+echo "$CONFIG_FILE_CONTENT" > supervisord.conf
+
+echo "set WINDOW_SIZE: $WINDOW_SIZE"
+if [ -n "$VNC_PASS" ]; then
+    echo "set vnc password success"
+else
+    echo "not set vnc password"
+fi
+echo "supervisord.conf created"
 
 # Create data directory
 mkdir -p /data
-# Create first run file
 touch '/data/First Run'
-# Remove chrome profile lock file
 rm -rf /data/Singleton*
 
 # Start supervisord and services
