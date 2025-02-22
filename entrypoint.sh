@@ -6,7 +6,6 @@ WINDOW_SIZE=${WINDOW_SIZE:-1600x900}
 BROWSER_SIZE=$(echo "$WINDOW_SIZE" | sed 's/x/,/')
 
 if [ -n "$VNC_PASS" ]; then
-    # 设置 VNC 密码
     x11vnc -storepasswd "$VNC_PASS" /root/.vnc/passwd
     VNC_PASSWORD_PARAM="-rfbauth /root/.vnc/passwd"
 else
