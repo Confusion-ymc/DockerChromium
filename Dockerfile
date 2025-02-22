@@ -19,13 +19,14 @@ RUN apt-get update && \
       chromium \
       fonts-droid-fallback && \
     ln -s /usr/share/novnc/vnc.html /usr/share/novnc/index.html
+    
 
 EXPOSE 6080 9222
 
-COPY supervisord.conf /supervisord.conf
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x entrypoint.sh
 
 RUN mkdir -p /root/.vnc
+
 CMD [ "/bin/sh", "/entrypoint.sh" ]
