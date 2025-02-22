@@ -1,6 +1,4 @@
 #!/bin/bash
-export USER=nobody
-export LANG=en_US.UTF-8
 
 WINDOW_SIZE=${WINDOW_SIZE:-1600x900}
 BROWSER_SIZE=$(echo "$WINDOW_SIZE" | sed 's/x/,/')
