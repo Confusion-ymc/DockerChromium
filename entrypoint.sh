@@ -26,8 +26,13 @@ command=x11vnc -forever -shared ${VNC_PASSWORD_PARAM}
 autorestart=true
 
 [program:chromium]
-command=chromium --no-sandbox --remote-debugging-port=9222 --user-data-dir=/data --window-size=${BROWSER_SIZE}
+command=chromium --no-sandbox --remote-debugging-port=9223 --user-data-dir=/data --window-size=${BROWSER_SIZE}
+autorestart=true
+
+[program:socat]
+command=socat tcp-listen:9222,fork tcp:localhost:9223
 autorestart=true"
+
 echo "$CONFIG_FILE_CONTENT" > supervisord.conf
 
 echo "set WINDOW_SIZE: $WINDOW_SIZE"
