@@ -2,8 +2,9 @@ version: '3'
 
 services:
   vnc-chromium:
-    build: .
-    image: vnc-chromium
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: chromium-test
     ports:
       - "6080:6080"
