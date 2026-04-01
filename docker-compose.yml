@@ -7,9 +7,16 @@ services:
       dockerfile: Dockerfile
     container_name: chromium-test
     ports:
-      - "6080:6080"
+      - "6080:3000"
     environment:
-      - WINDOW_SIZE=1920x1080
-      - VNC_PASS=1234
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - CHROME_CLI=https://www.google.com/
+      - LC_ALL=zh_CN.UTF-8
+      - TITLE=Chromium
+      - PASSWORD=1234
     volumes:
-      - ./data:/data
+      - ./config:/config
+    shm_size: "1gb"
+    restart: unless-stopped
