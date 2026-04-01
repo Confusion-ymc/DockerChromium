@@ -12,6 +12,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Shanghai
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
       - CHROME_CLI=https://www.google.com/
       - LC_ALL=zh_CN.UTF-8
       - TITLE=Chromium
