@@ -1,8 +1,8 @@
 FROM lscr.io/linuxserver/chromium:latest
 
-# 配置国内镜像源并安装中文字体/常用 Web 字体
+# 自动配置国内镜像源并安装中文字体/常用 Web 字体
 RUN \
-  sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources && \
+  find /etc/apt/ -type f -name "*.list" -o -name "*.sources" | xargs sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' && \
   apt-get update && \
   apt-get install -y \
     fonts-wqy-zenhei \
