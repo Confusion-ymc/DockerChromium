@@ -26,7 +26,7 @@ command=x11vnc -forever -shared ${VNC_PASSWORD_PARAM}
 autorestart=true
 
 [program:chromium]
-command=chromium --no-sandbox --remote-debugging-port=9223 --user-data-dir=/data --window-size=${BROWSER_SIZE}
+command=chromium --no-sandbox --remote-debugging-port=9223 --user-data-dir=/data --window-size=${BROWSER_SIZE} --lang=zh-CN
 autorestart=true
 
 [program:socat]
