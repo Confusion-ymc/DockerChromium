@@ -7,7 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: chromium-test
     ports:
-      - "6080:3000"
+      # - "6080:3000"
+      - "6080:3001"
     environment:
       - PUID=1000
       - PGID=1000
